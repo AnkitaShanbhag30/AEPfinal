@@ -6,4 +6,12 @@ describe('addTask', () => {
     const task = 'Learn Node.js';
     expect(addTask(tasks, task)).toContain(task);
   });
+
+  it('does not add an empty task to the list', () => {
+    const tasks = [];
+    const task = '';
+    addTask(tasks, task);
+    expect(tasks).not.toContain(task);
+  });
+  
 });
