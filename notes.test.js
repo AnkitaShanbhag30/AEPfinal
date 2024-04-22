@@ -21,4 +21,11 @@ describe('addTask', () => {
     expect(tasks).not.toContain(task);
   });
 
+  it('does not add a task that is only numeric', () => {
+    const tasks = [];
+    const task = '12345';
+    addTask(tasks, task);
+    expect(tasks).not.toContain(task);
+  });
+
 });
