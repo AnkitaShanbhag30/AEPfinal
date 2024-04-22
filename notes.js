@@ -11,7 +11,27 @@ function addTask(tasks, task, priority = 'Low', daysToDelete = null, reminderDay
     };
     tasks.push(taskWithMeta);
     return tasks;
-}
+  }
+  
+  function searchTasks(tasks, searchText) {
+    return tasks.filter(task => task.task.toLowerCase().includes(searchText.toLowerCase()));
+  }
+  
+  function filterTasksByPriority(tasks, priority) {
+    return tasks.filter(task => task.priority === priority);
+  }
+  
+  function filterTasksByDueDate(tasks, dueInDays) {
+    const currentDate = new Date();
+    return tasks.filter(task => {
+      if (task.deleteAfterDays === null) return false;
+      const dueDate = new Date(task.creationDate);
+      dueDate.setDate(dueDate.getDate() + task.deleteAfterDays);
+      const targetDate = new Date(currentDate);
+      targetDate.setDate(currentDate.getDate() + dueInDays);
+      return dueDate <= targetDate;
+    });
+  }
 
 function changePriority(tasks, taskName, newPriority) {
 const task = tasks.find(t => t.task === taskName);
@@ -46,4 +66,4 @@ tasks.forEach(t => {
 return reminders;
 }
 
-module.exports = { addTask, deleteOldTasks, checkReminders, changePriority };
+module.exports = { addTask, deleteOldTasks, checkReminders, changePriority, searchTasks, filterTasksByPriority, filterTasksByDueDate};

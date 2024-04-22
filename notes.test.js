@@ -1,8 +1,17 @@
-const { addTask, deleteOldTasks, checkReminders, changePriority } = require('./notes');  // assuming the file is named 'notes.js'
+const { addTask, deleteOldTasks, checkReminders, changePriority,searchTasks, filterTasksByPriority, filterTasksByDueDate } = require('./notes');  // assuming the file is named 'notes.js'
 
 describe('Todo functionalities', () => {
   const baseDate = new Date(2020, 0, 1); // January 1, 2020
   jest.useFakeTimers().setSystemTime(baseDate);
+  const tasks = [];
+  beforeEach(() => {
+    // Setup some tasks for testing
+    addTask(tasks, 'Complete the project documentation', 'High', 30, 10);
+    addTask(tasks, 'Prepare presentation slides', 'Medium', 7, 5);
+    addTask(tasks, 'Call project manager', 'Low', 3, 1);
+    addTask(tasks, 'Buy groceries for the week', 'Low', 10, 3);
+    addTask(tasks, 'Project review meeting', 'High', 5, 2);
+  });
 
   // Test basic task addition and validation
   it('adds a task to the list', () => {
@@ -79,5 +88,13 @@ describe('Todo functionalities', () => {
     changePriority(tasks, 'Update documentation', 'Low');
     expect(tasks.some(t => t.task === 'Update documentation' && t.priority === 'Low')).toBeTruthy();
   });
-  
+
+  it('searches tasks by text', () => {
+    const results = searchTasks(tasks, 'project');
+    expect(results.length).toBe(33);
+    expect(results.some(t => t.task === 'Complete the project documentation')).toBeTruthy();
+    expect(results.some(t => t.task === 'Call project manager')).toBeTruthy();
+    expect(results.some(t => t.task === 'Project review meeting')).toBeTruthy();
+  });
+
 });
