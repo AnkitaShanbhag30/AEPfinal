@@ -49,4 +49,13 @@ describe('Todo functionalities', () => {
     expect(updatedTasks.length).toBe(0);
   });
 
+  it('should get reminders when due', () => {
+    const tasks = [
+      { task: "Review PR", creationDate: new Date(2019, 11, 28), reminderDays: 5 } // December 28, 2019
+    ];
+    jest.advanceTimersByTime(5 * 24 * 60 * 60 * 1000); // Advance time by 5 days
+    const reminders = checkReminders(tasks);
+    expect(reminders).toContain("Reminder: Review PR");
+  });
+
 });
