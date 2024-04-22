@@ -13,5 +13,12 @@ describe('addTask', () => {
     addTask(tasks, task);
     expect(tasks).not.toContain(task);
   });
-  
+
+  it('does not add a task that is only spaces', () => {
+    const tasks = [];
+    const task = '   ';
+    addTask(tasks, task);
+    expect(tasks).not.toContain(task);
+  });
+
 });
