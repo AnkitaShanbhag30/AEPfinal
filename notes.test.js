@@ -1,9 +1,10 @@
-const { addTask, deleteOldTasks, checkReminders } = require('./notes');
+const { addTask, deleteOldTasks, checkReminders, changePriority } = require('./notes');  // assuming the file is named 'notes.js'
 
 describe('Todo functionalities', () => {
   const baseDate = new Date(2020, 0, 1); // January 1, 2020
   jest.useFakeTimers().setSystemTime(baseDate);
 
+  // Test basic task addition and validation
   it('adds a task to the list', () => {
     const tasks = [];
     const task = 'Learn Node.js';
@@ -32,9 +33,10 @@ describe('Todo functionalities', () => {
     expect(tasks).toEqual([]);
   });
 
+  // Test task deletion and reminders
   it('adds a task with delete and reminder options', () => {
     const tasks = [];
-    addTask(tasks, "Learn Jest", 7, 3);
+    addTask(tasks, "Learn Jest", 'Low', 7, 3);
     expect(tasks.length).toBe(1);
     expect(tasks[0].deleteAfterDays).toBe(7);
     expect(tasks[0].reminderDays).toBe(3);
@@ -58,4 +60,10 @@ describe('Todo functionalities', () => {
     expect(reminders).toContain("Reminder: Review PR");
   });
 
+  // Test task prioritization
+  it('adds a task with medium priority', () => {
+    const tasks = [];
+    addTask(tasks, 'Complete assignment', 'Medium');
+    expect(tasks.some(t => t.task === 'Complete assignment' && t.priority === 'Medium')).toBeTruthy();
+  });
 });

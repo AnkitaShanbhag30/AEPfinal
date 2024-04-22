@@ -1,25 +1,23 @@
-// function addTask(tasks, task) {
-
-//     if (!task.trim() || !isNaN(task.trim())) {
-//       return tasks;
-//     }
-//     tasks.push(task.trim());
-//     return tasks;
-//   }
-  
-//   module.exports = { addTask };
-  
-function addTask(tasks, task, daysToDelete = null, reminderDays = null) {
-if (!task.trim() || !isNaN(task.trim())) {
+function addTask(tasks, task, priority = 'Low', daysToDelete = null, reminderDays = null) {
+    if (!task.trim() || !isNaN(task.trim())) {
+      return tasks;
+    }
+    const taskWithMeta = {
+      task: task.trim(),
+      priority,
+      creationDate: new Date(),
+      deleteAfterDays: daysToDelete,
+      reminderDays: reminderDays
+    };
+    tasks.push(taskWithMeta);
     return tasks;
 }
-const taskWithMeta = {
-    task: task.trim(),
-    creationDate: new Date(),
-    deleteAfterDays: daysToDelete,
-    reminderDays: reminderDays
-};
-tasks.push(taskWithMeta);
+
+function changePriority(tasks, taskName, newPriority) {
+const task = tasks.find(t => t.task === taskName);
+if (task) {
+    task.priority = newPriority;
+}
 return tasks;
 }
 
@@ -48,4 +46,4 @@ tasks.forEach(t => {
 return reminders;
 }
 
-module.exports = { addTask, deleteOldTasks, checkReminders };
+module.exports = { addTask, deleteOldTasks, checkReminders, changePriority };
