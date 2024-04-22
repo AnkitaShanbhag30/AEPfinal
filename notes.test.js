@@ -60,10 +60,16 @@ describe('Todo functionalities', () => {
     expect(reminders).toContain("Reminder: Review PR");
   });
 
-  // Test task prioritization
   it('adds a task with medium priority', () => {
     const tasks = [];
     addTask(tasks, 'Complete assignment', 'Medium');
     expect(tasks.some(t => t.task === 'Complete assignment' && t.priority === 'Medium')).toBeTruthy();
+  });
+
+  it('changes task priority from medium to high', () => {
+    const tasks = [];
+    addTask(tasks, 'Prepare presentation', 'Medium');
+    changePriority(tasks, 'Prepare presentation', 'High');
+    expect(tasks.some(t => t.task === 'Prepare presentation' && t.priority === 'High')).toBeTruthy();
   });
 });
