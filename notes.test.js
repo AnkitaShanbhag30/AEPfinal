@@ -72,4 +72,12 @@ describe('Todo functionalities', () => {
     changePriority(tasks, 'Prepare presentation', 'High');
     expect(tasks.some(t => t.task === 'Prepare presentation' && t.priority === 'High')).toBeTruthy();
   });
+
+  it('changes task priority from high to low', () => {
+    const tasks = [];
+    addTask(tasks, 'Update documentation', 'High');
+    changePriority(tasks, 'Update documentation', 'Low');
+    expect(tasks.some(t => t.task === 'Update documentation' && t.priority === 'Low')).toBeTruthy();
+  });
+  
 });
