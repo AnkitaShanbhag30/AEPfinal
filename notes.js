@@ -1,13 +1,51 @@
-function addTask(tasks, task) {
+// function addTask(tasks, task) {
 
-    if (!task.trim() || !isNaN(task.trim())) {
-      return tasks;
-    }
-    tasks.push(task.trim());
+//     if (!task.trim() || !isNaN(task.trim())) {
+//       return tasks;
+//     }
+//     tasks.push(task.trim());
+//     return tasks;
+//   }
+  
+//   module.exports = { addTask };
+  
+function addTask(tasks, task, daysToDelete = null, reminderDays = null) {
+if (!task.trim() || !isNaN(task.trim())) {
     return tasks;
-  }
-  
-  module.exports = { addTask };
-  
+}
+const taskWithMeta = {
+    task: task.trim(),
+    creationDate: new Date(),
+    deleteAfterDays: daysToDelete,
+    reminderDays: reminderDays
+};
+tasks.push(taskWithMeta);
+return tasks;
+}
 
-  
+function deleteOldTasks(tasks) {
+const currentDate = new Date();
+return tasks.filter(t => {
+    if (t.deleteAfterDays === null) return true;
+    const deleteDate = new Date(t.creationDate);
+    deleteDate.setDate(deleteDate.getDate() + t.deleteAfterDays);
+    return deleteDate > currentDate;
+});
+}
+
+function checkReminders(tasks) {
+const currentDate = new Date();
+let reminders = [];
+tasks.forEach(t => {
+    if (t.reminderDays !== null) {
+    const reminderDate = new Date(t.creationDate);
+    reminderDate.setDate(reminderDate.getDate() + t.reminderDays);
+    if (reminderDate <= currentDate) {
+        reminders.push(`Reminder: ${t.task}`);
+    }
+    }
+});
+return reminders;
+}
+
+module.exports = { addTask, deleteOldTasks, checkReminders };
