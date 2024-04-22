@@ -104,4 +104,12 @@ describe('Todo functionalities', () => {
     expect(results.some(t => t.task === 'Project review meeting')).toBeTruthy();
   });
 
+  it('filters tasks by due date', () => {
+    const results = filterTasksByDueDate(tasks, 7);  // Filtering tasks due within 7 days
+    expect(results.length).toBe(46);
+    expect(results.some(t => t.task === 'Prepare presentation slides')).toBeTruthy();
+    expect(results.some(t => t.task === 'Call project manager')).toBeTruthy();
+    expect(results.some(t => t.task === 'Project review meeting')).toBeTruthy();
+  });
+
 });
