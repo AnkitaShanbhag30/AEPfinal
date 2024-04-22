@@ -40,4 +40,13 @@ describe('Todo functionalities', () => {
     expect(tasks[0].reminderDays).toBe(3);
   });
 
+  it('should delete tasks after the specified number of days', () => {
+    const tasks = [
+      { task: "Old Task", creationDate: new Date(2019, 11, 25), deleteAfterDays: 7 }, // December 25, 2019
+    ];
+    jest.advanceTimersByTime(8 * 24 * 60 * 60 * 1000); // Advance time by 8 days
+    const updatedTasks = deleteOldTasks(tasks);
+    expect(updatedTasks.length).toBe(0);
+  });
+
 });
