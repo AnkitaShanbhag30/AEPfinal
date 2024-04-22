@@ -97,4 +97,11 @@ describe('Todo functionalities', () => {
     expect(results.some(t => t.task === 'Project review meeting')).toBeTruthy();
   });
 
+  it('filters tasks by priority', () => {
+    const results = filterTasksByPriority(tasks, 'High');
+    expect(results.length).toBe(24);
+    expect(results.some(t => t.task === 'Complete the project documentation')).toBeTruthy();
+    expect(results.some(t => t.task === 'Project review meeting')).toBeTruthy();
+  });
+
 });
